@@ -22,7 +22,7 @@ async function example() {
         await driver.findElement(By.id('user_login')).sendKeys('segip39767@tsderp.com', Key.RETURN);
         await driver.findElement(By.id('user_pass')).sendKeys('Google@123', Key.RETURN);
 
-
+        // await driver.get("https://www.paklegaldatabase.com/judgements/?jsf=jet-engine:main&pagenum=132");
 
         let paginationBox = await driver.findElement(By.className("jet-filters-pagination__item prev-next next"));
         let next_check = true
@@ -35,33 +35,59 @@ async function example() {
                 const filepath = path.join(saveDirectory, "page#" + counter + ".html");
                 fs.writeFileSync(filepath, htmlContent, 'utf-8');
                 //get list 
-                const list = await driver.findElements(By.className("jet-listing-grid__item"))
-                //Traverse thorugh the list
+                const list = await driver.findElements(By.xpath(`//*[@id="main"]/div/div/div/div`))
+
+                console.log(list.length, "<=== list")
+                // const newList = await driver.findElements(By.xpath(`//*[@id="main"]/div/div/div/div`))
+                // console.log(newList[0], "<=== wowowowoow");
+                // console.log(newList.length, "<=== wwowowowow ");
+                //Traverse through the list
+                // for (let index = 0; index < 1; index++) {
+                //     const item = list[index];
+                //     let wow = await item.findElement(By.xpath(`//*[@id="casesummary"]/div/div/div/div`));
+
+
+                // }
                 for (let index = 0; index < list.length; index++) {
                     const box = list[index];
-                    let pdfBox = await box.findElement(By.className(`jet-listing-dynamic-field__content`))
-                    let link = pdfBox.findElement(By.xpath(`//p/a`))
+                    let check = await driver.findElement(By.xpath(`//*[@id="main"]/div/div/div/div[${index + 1}]/div/div/div/section/div/div/div/div/div/div[13]/div/div/div/div/a`)).getAttribute('href');
+                    console.log(check, "<===check")
+
+                    // let pdfBox = await box.findElement(By.className(`jet-listing-dynamic-field__content`));
+                    // let link = await pdfBox.findElement(By.xpath(`//div/div/section/div/div/div/div/div/div[2]/div/div/div/div/p/a`))
+                    // let wow = await pdfBox.findElement(By.xpath(`//div/div/section/div/div/div/div/div/div[12]/div/div/div/div`)).getText();
+
+                    // let wow = await pdfBox.findElement(By.xpath(`//*[@id="casesummary"]/div/div/div/div/text()`));
+                    // console.log(wow, "<======= wow")
 
                     //Download pdf file
-                    const pdfLinkUrl = await link.getAttribute('href')
+                    const pdfLinkUrl = check;
+                    // console.log(pdfLinkUrl, "<=== url link")
                     // console.log(pdfLinkUrl, "<--- link")
 
                     // Use axios (or any HTTP library of your choice) to download the PDF file
-                    const response = await axios({
-                        method: 'get',
-                        url: pdfLinkUrl,
-                        responseType: 'stream',
-                    });
-                    // Save the PDF content to a file in the specified directory
-                    const filePath = path.join(saveDirectory, "page#" + counter + "pdf#" + (index + 1) + ".pdf");
-                    const writeStream = fs.createWriteStream(filePath);
-                    await response.data.pipe(writeStream);
+                    try {
+                        const response = await axios({
+                            method: 'get',
+                            url: pdfLinkUrl,
+                            responseType: 'stream',
+                        });
+                        // Save the PDF content to a file in the specified directory
+                        const filePath = path.join(saveDirectory, "page#" + counter + "pdf#" + (index + 1) + ".pdf");
+                        console.log("download file :", "page#" + counter + "pdf#" + (index + 1) + ".pdf");
+                        const writeStream = fs.createWriteStream(filePath);
+                        await response.data.pipe(writeStream);
+                        // Wait for wthe file to finish writing
+                        await new Promise((resolve, reject) => {
+                            writeStream.on('finish', resolve);
+                            writeStream.on('error', reject);
+                        });
+                    } catch (e) {
+                        console.log(e, "<=== unable to download file")
+                        console.log("enable to down load file:", "page#" + counter + "pdf#" + (index + 1) + ".pdf")
+                    }
 
-                    // Wait for wthe file to finish writing
-                    await new Promise((resolve, reject) => {
-                        writeStream.on('finish', resolve);
-                        writeStream.on('error', reject);
-                    });
+
 
                 }
                 paginationBox = await driver.findElement(By.className("jet-filters-pagination__item prev-next next"));
