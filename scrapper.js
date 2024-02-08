@@ -19,8 +19,8 @@ async function example() {
         await driver.get('https://www.paklegaldatabase.com/login/');
 
         //   Perform actions on the website
-        await driver.findElement(By.id('user_login')).sendKeys('segip39767@tsderp.com', Key.RETURN);
-        await driver.findElement(By.id('user_pass')).sendKeys('Google@123', Key.RETURN);
+        await driver.findElement(By.id('user_login')).sendKeys('deedardj9@gmail.com', Key.RETURN);
+        await driver.findElement(By.id('user_pass')).sendKeys('Mafia1992', Key.RETURN);
 
         // await driver.get("https://www.paklegaldatabase.com/judgements/?jsf=jet-engine:main&pagenum=132");
 
