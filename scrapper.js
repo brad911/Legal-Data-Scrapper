@@ -22,7 +22,7 @@ async function example() {
         await driver.findElement(By.id('user_login')).sendKeys('deedardj9@gmail.com', Key.RETURN);
         await driver.findElement(By.id('user_pass')).sendKeys('Mafia1992', Key.RETURN);
 
-        // await driver.get("https://www.paklegaldatabase.com/judgements/?jsf=jet-engine:main&pagenum=132");
+        await driver.get("https://www.paklegaldatabase.com/judgements/?jsf=jet-engine:main&pagenum=23");
 
         let paginationBox = await driver.findElement(By.className("jet-filters-pagination__item prev-next next"));
         let next_check = true
@@ -46,11 +46,19 @@ async function example() {
                 //     const item = list[index];
                 //     let wow = await item.findElement(By.xpath(`//*[@id="casesummary"]/div/div/div/div`));
 
-
+                ////*[@id="main"]/div/div/div/div[3]/div/div/div/section/div/div/div/div/div/div[2]/div/div/div/div/p/a
+                ////*[@id="main"]/div/div/div/div[1]/div/div/div/section/div/div/div/div/div/div[13]/div/div/div/div/a
+                //*[@id="main"]/div/div/div/div[2]/div/div/div/section/div/div/div/div/div/div[2]/div/div/div/div/p/a
+                // /html/body/div[1]/div/section[1]/div/div/div[2]/div/div/div/div/div/div/div/section[1]/div/div/div/div/div/div[6]/div/div/div/div[1]/div/div/div/section/div/div/div/div/div/div[2]/div/div/div/div/p/a
                 // }
                 for (let index = 0; index < list.length; index++) {
-                    const box = list[index];
-                    let check = await driver.findElement(By.xpath(`//*[@id="main"]/div/div/div/div[${index + 1}]/div/div/div/section/div/div/div/div/div/div[13]/div/div/div/div/a`)).getAttribute('href');
+                    try {
+                        var check = await driver.findElement(By.xpath(`//*[@id="main"]/div/div/div/div[${index + 1}]/div/div/div/section/div/div/div/div/div/div[13]/div/div/div/div/a`));
+                    } catch (e) {
+                        console.log(e, "<==== eror");
+                        continue;
+                    }
+                    check = await check.getAttribute('href')
                     console.log(check, "<===check")
 
                     // let pdfBox = await box.findElement(By.className(`jet-listing-dynamic-field__content`));
