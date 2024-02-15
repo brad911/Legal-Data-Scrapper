@@ -22,7 +22,7 @@ async function example() {
         await driver.findElement(By.id('user_login')).sendKeys('deedardj9@gmail.com', Key.RETURN);
         await driver.findElement(By.id('user_pass')).sendKeys('Mafia1992', Key.RETURN);
 
-        await driver.get("https://www.paklegaldatabase.com/judgements/?jsf=jet-engine:main&pagenum=23");
+        await driver.get("https://www.paklegaldatabase.com/judgements/?jsf=jet-engine:main&pagenum=472");
 
         let paginationBox = await driver.findElement(By.className("jet-filters-pagination__item prev-next next"));
         let next_check = true
@@ -38,22 +38,12 @@ async function example() {
                 const list = await driver.findElements(By.xpath(`//*[@id="main"]/div/div/div/div`))
 
                 console.log(list.length, "<=== list")
-                // const newList = await driver.findElements(By.xpath(`//*[@id="main"]/div/div/div/div`))
-                // console.log(newList[0], "<=== wowowowoow");
-                // console.log(newList.length, "<=== wwowowowow ");
-                //Traverse through the list
-                // for (let index = 0; index < 1; index++) {
-                //     const item = list[index];
-                //     let wow = await item.findElement(By.xpath(`//*[@id="casesummary"]/div/div/div/div`));
 
-                ////*[@id="main"]/div/div/div/div[3]/div/div/div/section/div/div/div/div/div/div[2]/div/div/div/div/p/a
-                ////*[@id="main"]/div/div/div/div[1]/div/div/div/section/div/div/div/div/div/div[13]/div/div/div/div/a
-                //*[@id="main"]/div/div/div/div[2]/div/div/div/section/div/div/div/div/div/div[2]/div/div/div/div/p/a
-                // /html/body/div[1]/div/section[1]/div/div/div[2]/div/div/div/div/div/div/div/section[1]/div/div/div/div/div/div[6]/div/div/div/div[1]/div/div/div/section/div/div/div/div/div/div[2]/div/div/div/div/p/a
-                // }
                 for (let index = 0; index < list.length; index++) {
                     try {
-                        var check = await driver.findElement(By.xpath(`//*[@id="main"]/div/div/div/div[${index + 1}]/div/div/div/section/div/div/div/div/div/div[13]/div/div/div/div/a`));
+                        // var check = await driver.findElement(By.xpath(`//*[@id="main"]/div/div/div/div[${index + 1}]/div/div/div/section/div/div/div/div/div/div[13]/div/div/div/div/a`));
+                        var check = await driver.findElement(By.xpath(`/html/body/div[1]/div/section[1]/div/div/div[2]/div/div/div/div/div/div/div/section[1]/div/div/div/div/div/div[6]/div/div/div/div[${index + 1}]/div/div/div/section/div/div/div/div/div/div[2]/div/div/div/div/p/a`))
+                        //                                             /html/body/div[1]/div/section[1]/div/div/div[2]/div/div/div/div/div/div/div/section[1]/div/div/div/div/div/div[6]/div/div/div/div[1]/div/div/div/section/div/div/div/div/div/div[2]/div/div/div/div/p/a
                     } catch (e) {
                         console.log(e, "<==== eror");
                         continue;
